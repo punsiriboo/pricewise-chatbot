@@ -5,5 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "functions-framework>=3.8.2",
     "google-adk>=0.1.0",
+    "google-cloud-discoveryengine>=0.13.8",
+    "line-bot-sdk>=3.16.3",
+    "pillow>=11.2.1",
+]
+
+[tool.uv.workspace]
+members = [
 ]

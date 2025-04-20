@@ -23,6 +23,8 @@ from linebot.v3.messaging import (
     TextMessage,
     ShowLoadingAnimationRequest,
     LocationMessage,
+    FlexMessage,
+    FlexCarousel
 )
 
 load_dotenv()
@@ -87,8 +89,6 @@ def handle_sticker_message(event):
     )
 
 
-
-
 @handler.add(MessageEvent, message=ImageMessageContent)
 def handle_image_message(event):
     line_bot_api.show_loading_animation_with_http_info(
@@ -104,16 +104,27 @@ def handle_image_message(event):
         Return: Recipe
     """
     gemini_reponse = image_description(prompt, message_content)
-    print(f"Gemini response: {gemini_reponse}")
+    from commons.handle_image import data_extract_and_search
+    result_products_list = data_extract_and_search(gemini_reponse)
+
+    carousel_flex_message = FlexMessage(
+        alt_text=f"ผลการค้นหาสินค้า",
+        contents=FlexCarousel(
+            type="carousel",
+            contents=result_products_list,
+        ),
+    )
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
             messages=[
                 TextMessage(text=gemini_reponse),
+                carousel_flex_message
             ],
         )
     )
+
 
 
 @handler.add(MessageEvent, message=FileMessageContent)

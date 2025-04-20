@@ -18,7 +18,7 @@ def generate_text(text):
             max_output_tokens=200,
         ),
     )
-    print(f"Gemini response: {response.text}")
+    # print(f"Gemini response: {response.text}")
     return response.text
 
 

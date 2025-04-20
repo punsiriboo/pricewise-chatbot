@@ -1,4 +1,5 @@
 import os
+import re
 from typing import List
 from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1 as discoveryengine
@@ -29,12 +30,12 @@ def get_vertex_ai_search_config():
 
     content_search_spec = discoveryengine.SearchRequest.ContentSearchSpec(
         summary_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec(
-            summary_result_count=5,
+            summary_result_count=3,
             include_citations=True,
             ignore_adversarial_query=True,
             ignore_non_summary_seeking_query=True,
             model_prompt_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelPromptSpec(
-                preamble="Summary the NAV the fund detail and provide recommendation based on YTD value provide knowledge about each Fund in Thai"
+                preamble="ค้นหาสินค้าที่ตรงกันและสรุปสั้นๆ"
             ),
             model_spec=discoveryengine.SearchRequest.ContentSearchSpec.SummarySpec.ModelSpec(
                 version="stable",
