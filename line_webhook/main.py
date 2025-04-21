@@ -39,7 +39,12 @@ api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
 line_bot_blob_api = MessagingApiBlob(api_client)
 
-from commons.gemini_service import generate_text, image_description, document_description
+from commons.gemini_service import (
+    generate_text, 
+    image_description, 
+    document_description,
+    get_price_comparison,
+)
 
 
 @functions_framework.http
@@ -96,31 +101,29 @@ def handle_image_message(event):
     )
 
     message_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
-    prompt = """จงตรวจสอบภาพที่ส่งมาให้เป็นใบเสนอราคาหรือไม่ และดังข้อมูลที่สำคัญในภาพ ออกมาในรูปแบบ list of JSON
-        ยกตัวอย่าง: [{"product":"สินค้า", "price":"ราคา", "quantity":"จำนวน"}]
-        Use this JSON schema:
-        Language = ภาษาไทย
-        Recipe = {'product': str, 'price': float, 'quantity': int}]}
-        Return: Recipe
+    prompt = """ I have provided an image of an invoice.
+        For each product, perform a Google search focusing on e-commerce platforms available in Thailand and Find at least 3 matching or closely similar products from different stores.
+        the result as a JSON object including:
+        DataSchema = {
+            'product': str,
+            'original_price': float,
+            'average_price': float,
+            'comparison': [
+                {
+                    'store_name': str,
+                    'price_thb': float,
+                    'product_link': str,
+                }
+            ]
+        }
     """
-    gemini_reponse = image_description(prompt, message_content)
-    from commons.handle_image import data_extract_and_search
-    result_products_list = data_extract_and_search(gemini_reponse)
-
-    carousel_flex_message = FlexMessage(
-        alt_text=f"ผลการค้นหาสินค้า",
-        contents=FlexCarousel(
-            type="carousel",
-            contents=result_products_list,
-        ),
-    )
+    gemini_reponse = get_price_comparison(prompt, message_content)
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
             messages=[
                 TextMessage(text=gemini_reponse),
-                carousel_flex_message
             ],
         )
     )

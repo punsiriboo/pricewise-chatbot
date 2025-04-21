@@ -56,3 +56,25 @@ def document_description(file_content):
     )
     print(f"Gemini response: {response.text}")
     return response.text
+
+
+def get_price_comparison(prompt: str, image_content: bytes):
+    model = "gemini-2.0-flash"
+    pil_image = PILImage.open(io.BytesIO(image_content))
+        
+    # Add Google Search tool
+    tools = [types.Tool(google_search=types.GoogleSearch())]
+    
+    generate_content_config = types.GenerateContentConfig(
+        tools=tools,
+        response_mime_type="text/plain"
+    )
+
+    # Generate response from Gemini
+    response = client.models.generate_content(
+        model=model,
+        contents=[prompt, pil_image],
+        config=generate_content_config
+    )
+    print(f"Gemini response: {response.text}")
+    return response.text
