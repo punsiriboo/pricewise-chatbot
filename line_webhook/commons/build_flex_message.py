@@ -1,8 +1,58 @@
 import re
+from pprint import pprint
 from commons.vertex_ai_search import vertex_ai_search
 from linebot.v3.messaging import (
     FlexContainer
 )
+
+def data_extract_and_flex(gemini_reponse):
+
+    # ดึงข้อมูลในแต่ละ Comparison
+    pattern = r'"product":\s*"([^"]+?)",\s*"original_price":\s*([\d.]+),\s*"average_price":\s*([\d.]+),\s*"comparison":\s*\[(.*?)\](?=\s*})'
+
+    # ดึงข้อมูลจากแต่ละ store ภายใน Comparison
+    store_pattern = r'"store_name":\s*"([^"]+)",\s*"price_thb":\s*([\d.]+),\s*"product_link":\s*"([^"]+)"'
+
+
+    # step 1: ดึง product แต่ละตัวและ block ของ Comparison
+    product_blocks = re.findall(pattern, gemini_reponse, flags=re.DOTALL)
+    
+    # แปลงเป็น list of dict ตาม schema
+    all_search_item_list = []
+    for product_name, original_price, average_price, comparison_block in product_blocks:
+        store_matches = re.findall(store_pattern, comparison_block)
+        print(f"store_matches: {len(store_matches)}")
+        
+        with open("templates/product_bubble2.json") as file:
+            product_bubble = file.read()
+        
+        all_items_list =[]
+        for store_name, price, link in store_matches:
+            with open("templates/product_item_without_image.json") as file:
+                product_item = file.read()
+
+            product_item_with_data = (
+                product_item
+                .replace("<PRODUCT_NAME>", store_name)
+                .replace("<PRICE>", str(price))
+                .replace("<LINK>", link)
+            )
+            all_items_list.append(product_item_with_data)
+        all_items_list_text = ",".join(all_items_list)
+        product_search_bubble = (
+            product_bubble
+            .replace("<ORIGINAL_PRODUCT>", product_name)
+            .replace("<ORIGINAL_PRICE>", str(original_price))
+            .replace("<AVG_PRICE>", str(average_price))
+            .replace("<PRODUCT_ITEMS>", all_items_list_text)
+        )
+        print("*"*100)
+        print(product_search_bubble)
+        all_search_item_list.append(FlexContainer.from_json(product_search_bubble))
+   
+    return all_search_item_list
+
+
 
 def data_extract_and_search(gemini_reponse):
     

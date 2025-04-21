@@ -75,5 +75,5 @@ def get_price_comparison(prompt: str, image_content: bytes):
         contents=[prompt, pil_image],
         config=generate_content_config
     )
-    print(f"Gemini response: {response.text}")
+    # print(f"Gemini response: {response.text}")
     return response.text

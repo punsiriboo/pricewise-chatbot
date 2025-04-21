@@ -35,7 +35,7 @@ api_client = ApiClient(configuration)
 line_bot_api = MessagingApi(api_client)
 line_bot_blob_api = MessagingApiBlob(api_client)
 
-from commons.build_flex_message import data_extract_and_search
+from commons.build_flex_message import data_extract_and_search, data_extract_and_flex
 from commons.gemini_service import (
     generate_text, 
     image_description, 
@@ -102,12 +102,21 @@ def handle_image_message(event):
         }
     """
     gemini_reponse = get_price_comparison(prompt, message_content)
+    all_search_item_list = data_extract_and_flex(gemini_reponse)
+
+    carousel_flex_message = FlexMessage(
+        alt_text=f"ผลการเปรียบเทียบราคา",
+        contents=FlexCarousel(
+            type="carousel",
+            contents=all_search_item_list,
+        ),
+    )
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
             messages=[
-                TextMessage(text=gemini_reponse),
+                carousel_flex_message
             ],
         )
     )

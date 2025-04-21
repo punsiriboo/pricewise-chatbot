@@ -7,21 +7,6 @@
         "layout": "vertical",
         "contents": [
           {
-            "type": "image",
-            "url": "<PRODUCT_IMG>",
-            "aspectMode": "cover",
-            "size": "full"
-          }
-        ],
-        "cornerRadius": "10px",
-        "width": "72px",
-        "height": "72px"
-      },
-      {
-        "type": "box",
-        "layout": "vertical",
-        "contents": [
-          {
             "type": "text",
             "contents": [
               {
@@ -52,6 +37,16 @@
             ],
             "size": "sm",
             "wrap": true
+          },
+          {
+            "type":"button",
+            "action":{
+               "type":"uri",
+               "label":"link",
+               "uri":"<LINK>"
+            },
+            "style":"secondary",
+            "height":"sm"
           }
         ]
       }
