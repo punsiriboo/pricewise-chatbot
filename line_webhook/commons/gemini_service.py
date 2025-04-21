@@ -39,8 +39,7 @@ def image_description(prompt,image_content):
     return response.text
 
 
-def document_description(file_content):
-    prompt = "Summarize this document in Thai"
+def document_description(prompt, file_content):
     response = client.models.generate_content(
         model="gemini-1.5-flash",
         contents=[

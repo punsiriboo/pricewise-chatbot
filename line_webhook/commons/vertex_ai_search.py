@@ -45,7 +45,7 @@ def get_vertex_ai_search_config():
     return client, serving_config, content_search_spec
 
 
-def search_ai(query):
+def vertex_ai_search(query):
     # Search Configuration
     client, serving_config, content_search_spec = get_vertex_ai_search_config()
 

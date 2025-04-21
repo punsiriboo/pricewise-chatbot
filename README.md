@@ -1,5 +1,5 @@
 # Pricewise Chatbot DEMO
-
+![alt text](images/beat_title.png)
 ![alt text](<images/title.png>) 
 ![alt text](<images/Screenshot 2025-04-21 at 11.23.46 PM.png>) 
 ![alt text](<images/Screenshot 2025-04-21 at 11.25.56 PM.png>) 
