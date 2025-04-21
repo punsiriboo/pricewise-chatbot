@@ -20,13 +20,13 @@
             "contents": [
               {
                 "type": "span",
-                "text": "รายการ:",
+                "text": "รายการที่ <ITEM_NO>.",
                 "color": "#000000",
                 "weight": "bold"
               },
               {
                 "type": "span",
-                "text": "     "
+                "text": " "
               },
               {
                 "type": "span",
@@ -34,8 +34,7 @@
               }
             ],
             "size": "sm",
-            "wrap": true,
-            "offsetTop": "sm"
+            "wrap": true
           },
           {
             "type": "text",
@@ -48,7 +47,7 @@
               },
               {
                 "type": "span",
-                "text": "     "
+                "text": " "
               },
               {
                 "type": "span",
@@ -56,8 +55,7 @@
               }
             ],
             "size": "sm",
-            "wrap": true,
-            "offsetTop": "sm"
+            "wrap": true
           },
           {
             "type": "text",
@@ -70,7 +68,7 @@
               },
               {
                 "type": "span",
-                "text": "     "
+                "text": " "
               },
               {
                 "type": "span",
@@ -78,8 +76,29 @@
               }
             ],
             "size": "sm",
-            "wrap": true,
-            "offsetTop": "sm"
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "contents": [
+              {
+                "type": "span",
+                "text": "ประเมิน:",
+                "color": "#000000",
+                "weight": "bold"
+              },
+              {
+                "type": "span",
+                "text": " "
+              },
+              {
+                "type": "span",
+                "text": "<ANALYSE>",
+                "color": "<ANALYSE_COLOR>"
+              }
+            ],
+            "size": "sm",
+            "wrap": true
           }
         ],
         "borderWidth": "none",

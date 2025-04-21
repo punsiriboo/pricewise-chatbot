@@ -9,7 +9,8 @@ dependencies = [
     "google-cloud-discoveryengine>=0.13.8",
     "line-bot-sdk>=3.16.3",
     "pillow>=11.2.1",
-    "google-genai"
+    "google-genai",
+    "dotenv>=0.9.9",
 ]
 
 [tool.uv.workspace]

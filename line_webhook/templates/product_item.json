@@ -33,21 +33,42 @@
             "size": "sm",
             "wrap": true
           },
+          
           {
             "type": "text",
             "contents": [
               {
                 "type": "span",
-                "text": "ราคา",
+                "text": "ที่มา:",
                 "color": "#000000"
               },
               {
                 "type": "span",
-                "text": "     "
+                "text": " "
               },
               {
                 "type": "span",
-                "text": "<PRICE>"
+                "text": "NocNoc.com"
+              }
+            ],
+            "size": "sm",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "contents": [
+              {
+                "type": "span",
+                "text": "ราคา:",
+                "color": "#000000"
+              },
+              {
+                "type": "span",
+                "text": " "
+              },
+              {
+                "type": "span",
+                "text": "<PRICE> (Diff <PRICE_DIFF>)"
               }
             ],
             "size": "sm",

@@ -115,21 +115,29 @@ def handle_image_message(event):
 
 @handler.add(MessageEvent, message=FileMessageContent)
 def handle_file_message(event):
-
+    line_bot_api.show_loading_animation_with_http_info(
+        ShowLoadingAnimationRequest(chat_id=event.source.user_id)
+    )
     doc_content = line_bot_blob_api.get_message_content(message_id=event.message.id)
     prompt = """ I have provided an image of an invoice. Extract data for me
-    DataSchema = [{
-        'product': str,
-        'original_price': float}]"""
+    The result as a JSON object including:
+    DataSchema = [{'product': str,'price': float, quantity:int}]"""
     gemini_reponse = document_description(prompt, doc_content)
-    gemini_summary_text, search_results = data_extract_and_search(gemini_reponse)
-    
+    result_products_list = data_extract_and_search(gemini_reponse)
+
+    carousel_flex_message = FlexMessage(
+        alt_text=f"ผลการเปรียบเทียบราคา",
+        contents=FlexCarousel(
+            type="carousel",
+            contents=result_products_list,
+        ),
+    )
 
     line_bot_api.reply_message(
         ReplyMessageRequest(
             reply_token=event.reply_token,
             messages=[
-                TextMessage(text=gemini_reponse),
+                carousel_flex_message
             ],
         )
     )
